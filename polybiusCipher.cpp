@@ -2,6 +2,10 @@
 #include <fstream>
 #include <map>
 #include <string>
+#include <conio.h>
+
+#define KEY_1 49
+#define KEY_2 50
 
 void encryptAndSave();
 void readAndDecrypt();
@@ -42,27 +46,23 @@ namespace polybiusKeysValuePair
 int main()
 {
     userPlay();
-
-    return 0;
 }
 
 void userPlay()
 {
-    int num;
+    using namespace std;
+
     std::cout << "What you wanna do, enter a number: " << '\n';
     std::cout << "1. Encrypt" << '\n';
     std::cout << "2. Decrypt" << '\n';
-    std::cin >> num;
-    if (num == 1)
+
+    switch (getch())
     {
+    case KEY_1:
         encryptAndSave();
-    }
-    else if (num == 2)
-    {
+    case KEY_2:
         readAndDecrypt();
-    }
-    else
-    {
+    default:
         std::cout << "You made a mistake, please behave in a pattern expected by creator" << '\n';
         userPlay();
     }
