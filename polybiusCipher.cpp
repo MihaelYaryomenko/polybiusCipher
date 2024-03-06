@@ -7,13 +7,15 @@
 #define KEY_1 49
 #define KEY_2 50
 
+using namespace std;
+
 void encryptAndSave();
 void readAndDecrypt();
 void userPlay();
 
 namespace polybiusKeysValuePair
 {
-    std::map<char, int> map = {
+    map<char, int> letterPair = {
         {'a', 11},
         {'b', 12},
         {'c', 13},
@@ -41,6 +43,34 @@ namespace polybiusKeysValuePair
         {'y', 54},
         {'z', 55},
     };
+
+    map<int, char> intPair = {
+        {11, 'a'},
+        {12, 'b'},
+        {13, 'c'},
+        {14, 'd'},
+        {15, 'e'},
+        {21, 'f'},
+        {22, 'g'},
+        {23, 'h'},
+        {24, 'i'},
+        {25, 'k'},
+        {31, 'l'},
+        {32, 'm'},
+        {33, 'n'},
+        {34, 'o'},
+        {35, 'p'},
+        {41, 'q'},
+        {42, 'r'},
+        {43, 's'},
+        {44, 't'},
+        {45, 'u'},
+        {51, 'v'},
+        {52, 'w'},
+        {53, 'x'},
+        {54, 'y'},
+        {55, 'z'},
+    };
 }
 
 int main()
@@ -50,11 +80,9 @@ int main()
 
 void userPlay()
 {
-    using namespace std;
-
-    std::cout << "What you wanna do, enter a number: " << '\n';
-    std::cout << "1. Encrypt" << '\n';
-    std::cout << "2. Decrypt" << '\n';
+    cout << "What you wanna do, enter a number: " << '\n';
+    cout << "1. Encrypt" << '\n';
+    cout << "2. Decrypt" << '\n';
 
     switch (getch())
     {
@@ -63,7 +91,7 @@ void userPlay()
     case KEY_2:
         readAndDecrypt();
     default:
-        std::cout << "You made a mistake, please behave in a pattern expected by creator" << '\n';
+        cout << "You made a mistake, please behave in a pattern expected by creator" << '\n';
         userPlay();
     }
 }
@@ -72,10 +100,10 @@ void encryptAndSave()
 {
     using namespace polybiusKeysValuePair;
 
-    std::string strToEncrypt;
-    std::string encryptedWord;
-    std::cout << "Enter word you want to encrypt in Polybius Cipher: ";
-    std::cin >> strToEncrypt;
+    string strToEncrypt;
+    string encryptedWord;
+    cout << "Enter word you want to encrypt in Polybius Cipher: ";
+    cin >> strToEncrypt;
 
     for (char &character : strToEncrypt)
     {
@@ -83,17 +111,26 @@ void encryptAndSave()
     }
     for (int i = 0; i < strToEncrypt.size(); i++)
     {
-        encryptedWord += std::to_string(map[strToEncrypt[i]]);
+        encryptedWord += to_string(letterPair[strToEncrypt[i]]);
     }
-    std::ofstream file("save.txt");
+    ofstream file("save.txt");
     file << encryptedWord;
     file.close();
 }
 
 void readAndDecrypt()
 {
-    std::string strToDecrypt;
-    std::ifstream file("save.txt");
+    using namespace polybiusKeysValuePair;
+
+    string strToDecrypt;
+    string decryptedWord;
+    ifstream file("save.txt");
     file >> strToDecrypt;
+    // cout << strToDecrypt;
     file.close();
+    for (int i = 0; i < strToDecrypt.size(); i += 2)
+    {
+        decryptedWord += intPair[strToDecrypt[i]];
+    }
+    cout << decryptedWord;
 }
